@@ -103,3 +103,7 @@ The following graph represents the training and validation loss over 5 epochs.
 ![](loss_plot.png)
 
 The training and validation loss reduce with each epoch, and are approximately the same towards the end of 5 epochs. Thus, the model is not overfitting.
+
+### Final video
+
+The final video is saved as `run1.mp4`.
