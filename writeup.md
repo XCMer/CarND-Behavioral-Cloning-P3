@@ -14,50 +14,50 @@
 
 ### Model architecture
 
-All the activations are `elu`. The lambda layer is for normalization. The rest of the layers are self-explanatory.
+All the activations are `elu`. The lambda layer is for normalization. The convolution layers all have valid padding.
 
 This is a replication of the NVidia architecture.
 
 ```____________________________________________________________________________________________________
 Layer (type)                     Output Shape          Param #     Connected to                     
 ====================================================================================================
-cropping2d_1 (Cropping2D)        (None, 65, 320, 3)    0           cropping2d_input_1[0][0]         
+Cropping2D (70 top, 25 bottom    (None, 65, 320, 3)    0           cropping2d_input_1[0][0]         
 ____________________________________________________________________________________________________
-lambda_1 (Lambda)                (None, 65, 320, 3)    0           cropping2d_1[0][0]               
+Normalization (Lambda)           (None, 65, 320, 3)    0           cropping2d_1[0][0]               
 ____________________________________________________________________________________________________
-convolution2d_1 (Convolution2D)  (None, 31, 158, 24)   1824        lambda_1[0][0]                   
+Conv (5x5 filter, 2x2 strides)   (None, 31, 158, 24)   1824        lambda_1[0][0]                   
 ____________________________________________________________________________________________________
-activation_1 (Activation)        (None, 31, 158, 24)   0           convolution2d_1[0][0]            
+elu Activation                   (None, 31, 158, 24)   0           convolution2d_1[0][0]            
 ____________________________________________________________________________________________________
-convolution2d_2 (Convolution2D)  (None, 14, 77, 36)    21636       activation_1[0][0]               
+Conv (5x5 filter, 2x2 strides)   (None, 14, 77, 36)    21636       activation_1[0][0]               
 ____________________________________________________________________________________________________
-activation_2 (Activation)        (None, 14, 77, 36)    0           convolution2d_2[0][0]            
+elu Activation                   (None, 14, 77, 36)    0           convolution2d_2[0][0]            
 ____________________________________________________________________________________________________
-convolution2d_3 (Convolution2D)  (None, 5, 37, 48)     43248       activation_2[0][0]               
+Conv (5x5 filter, 2x2 strides)   (None, 5, 37, 48)     43248       activation_2[0][0]               
 ____________________________________________________________________________________________________
-activation_3 (Activation)        (None, 5, 37, 48)     0           convolution2d_3[0][0]            
+elu Activation                   (None, 5, 37, 48)     0           convolution2d_3[0][0]            
 ____________________________________________________________________________________________________
-convolution2d_4 (Convolution2D)  (None, 3, 35, 64)     27712       activation_3[0][0]               
+Conv (3x3 filter, 1x1 strides)   (None, 3, 35, 64)     27712       activation_3[0][0]               
 ____________________________________________________________________________________________________
-activation_4 (Activation)        (None, 3, 35, 64)     0           convolution2d_4[0][0]            
+elu Activation                   (None, 3, 35, 64)     0           convolution2d_4[0][0]            
 ____________________________________________________________________________________________________
-convolution2d_5 (Convolution2D)  (None, 1, 33, 64)     36928       activation_4[0][0]               
+Conv (3x3 filter, 1x1 strides)   (None, 1, 33, 64)     36928       activation_4[0][0]               
 ____________________________________________________________________________________________________
-activation_5 (Activation)        (None, 1, 33, 64)     0           convolution2d_5[0][0]            
+elu Activation                   (None, 1, 33, 64)     0           convolution2d_5[0][0]            
 ____________________________________________________________________________________________________
-flatten_1 (Flatten)              (None, 2112)          0           activation_5[0][0]               
+Flatten                          (None, 2112)          0           activation_5[0][0]               
 ____________________________________________________________________________________________________
-dense_1 (Dense)                  (None, 1164)          2459532     flatten_1[0][0]                  
+Dense                            (None, 1164)          2459532     flatten_1[0][0]                  
 ____________________________________________________________________________________________________
-dropout_1 (Dropout)              (None, 1164)          0           dense_1[0][0]                    
+Dropout                          (None, 1164)          0           dense_1[0][0]                    
 ____________________________________________________________________________________________________
-dense_2 (Dense)                  (None, 100)           116500      dropout_1[0][0]                  
+Dense                            (None, 100)           116500      dropout_1[0][0]                  
 ____________________________________________________________________________________________________
-dense_3 (Dense)                  (None, 50)            5050        dense_2[0][0]                    
+Dense                            (None, 50)            5050        dense_2[0][0]                    
 ____________________________________________________________________________________________________
-dense_4 (Dense)                  (None, 10)            510         dense_3[0][0]                    
+Dense                            (None, 10)            510         dense_3[0][0]                    
 ____________________________________________________________________________________________________
-dense_5 (Dense)                  (None, 1)             11          dense_4[0][0]                    
+Dense                            (None, 1)             11          dense_4[0][0]                    
 ====================================================================================================
 Total params: 2,712,951
 Trainable params: 2,712,951
