@@ -72,6 +72,8 @@ def samples_generator(samples, batch_size=32):
                 images.append(np.fliplr(mpimg.imread('./data/IMG/' + batch_sample[2].split('/')[-1])))
                 angles.append(-(float(batch_sample[3]) - 0.2))
 
+            # These arrays are uint8 by default. If not converted to float, they'll
+            # all most likely become 0 during the normalization step.
             X_train = np.array(images).astype(np.float32)
             y_train = np.array(angles).astype(np.float32)
 
@@ -79,9 +81,15 @@ def samples_generator(samples, batch_size=32):
 
 
 # Create instances of generators
-# 6 images per row in the CSV
+# We do data augmentation for each row in the CSV, thus yielding 6 images
+# per row in the CSV
 augmentation_count = 6
+
+# The batch size being passed to the generator. These are the number
+# of rows the generator reads from the CSV
 generator_batch_size = 512
+
+# For every line, we yield multiple augmented images
 batch_size = augmentation_count * generator_batch_size
 train_generator = samples_generator(train_samples, batch_size=generator_batch_size)
 validation_generator = samples_generator(validation_samples, batch_size=generator_batch_size)
@@ -90,12 +98,6 @@ validation_generator = samples_generator(validation_samples, batch_size=generato
 # Helper functions
 def normalize_pixels(x):
     return x/127.5 - .1
-
-
-def resize_img(x):
-    from keras.backend import tf as ktf
-    return ktf.image.resize_images(x, (64, 64))
-
 
 def conv_layer(model, conv_depth, conv_size, conv_padding, subsample):
     model.add(Conv2D(conv_depth, *conv_size, subsample=subsample, border_mode='valid'))
