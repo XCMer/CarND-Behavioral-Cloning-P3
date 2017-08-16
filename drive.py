@@ -15,6 +15,9 @@ from io import BytesIO
 from keras.models import load_model
 import h5py
 from keras import __version__ as keras_version
+import keras
+
+keras.backend.set_image_dim_ordering('tf')
 
 sio = socketio.Server()
 app = Flask(__name__)

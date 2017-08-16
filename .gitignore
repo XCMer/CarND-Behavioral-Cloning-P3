@@ -1,0 +1,7 @@
+# Created by .ignore support plugin (hsz.mobi)
+data/
+mac_sim.app
+run1/
+.idea/
+.DS_Store
+__pycache__/
